@@ -78,7 +78,6 @@ public class EnemyController : MonoBehaviour
         else if (isChasing && distanceToPlayer > detectionRadius * 2)
         {
             isChasing = false;
-            animator.SetBool("Walk", false);
             SetRandomIdleTarget();
         }
 
