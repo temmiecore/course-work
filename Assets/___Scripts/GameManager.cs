@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    // Stealing my own code fr
     public static GameManager instance;
 
     private void Awake()
@@ -12,10 +12,20 @@ public class GameManager : MonoBehaviour
         if (GameManager.instance != null)
         {
             Destroy(gameObject);
-            // Destroy any other scene-traversing objects
+            Destroy(uiController.gameObject);
+            Destroy(player.gameObject);
+            // Destroy any other scene-persisting objects
+            // Audio
+            // ...
             return;
         }
         instance = this;
+        SceneManager.sceneLoaded += OnLoadScene;
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnLoadScene;
     }
 
     private void Start()
@@ -27,6 +37,7 @@ public class GameManager : MonoBehaviour
     [Header("References")]
     public GameObject player;
     public PlayerController playerController;
+    public CharacterController characterController;
     public UIController uiController;
     // Audio
     // ...
@@ -44,5 +55,17 @@ public class GameManager : MonoBehaviour
         {
             // Game over
         }
+    }
+
+    public void ChangeScene(string sceneName) 
+    {
+        SceneManager.LoadScene(sceneName);
+    }
+
+    public void OnLoadScene(Scene s, LoadSceneMode mode)
+    {
+        characterController.enabled = false;
+        characterController.transform.position = GameObject.Find("Spawn").transform.position;
+        characterController.enabled = true;
     }
 }

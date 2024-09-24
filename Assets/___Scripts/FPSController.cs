@@ -9,6 +9,7 @@ public class FPSController : MonoBehaviour
 {
     [Header("References")]
     public Camera playerCamera;
+    public UIController uiController;
 
     private CharacterController characterController;
 
@@ -49,7 +50,7 @@ public class FPSController : MonoBehaviour
     void Update()
     {
         HandleCameraRotation();
-        HandleItemInteraction();
+        HandleInteraction();
         HandleHeadBop();
     }
 
@@ -108,16 +109,28 @@ public class FPSController : MonoBehaviour
         }
     }
 
-    void HandleItemInteraction() 
+    void HandleInteraction() 
     {
+        RaycastHit hit;
+        Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
+
+        float sphereRadius = 0.5f;
+        float maxDistance = 3f;
+        // Debug.DrawRay(ray.origin, ray.direction * maxDistance, Color.blue, 10f);
+
+        if (Physics.SphereCast(ray, sphereRadius, out hit, maxDistance))
+        {
+            if (hit.collider.CompareTag("Item"))
+                uiController.setUIInteractionPopup("Pick up? E");
+            if (hit.collider.CompareTag("Door"))
+                uiController.setUIInteractionPopup("Go in? E");
+            // Shop? "Buy"
+            else
+                uiController.setUIInteractionPopup("");
+        }
+
         if (Input.GetKeyDown(KeyCode.E))
         {
-            RaycastHit hit;
-            Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
-        
-            float sphereRadius = 0.5f;
-            float maxDistance = 3f;
-        
             if (Physics.SphereCast(ray, sphereRadius, out hit, maxDistance))
             {
                 if (hit.collider.CompareTag("Item"))
@@ -125,11 +138,15 @@ public class FPSController : MonoBehaviour
                     Item item = hit.collider.gameObject.GetComponent<Item>();
                     if (item != null)
                         item.PickUp();
-                    
+                }
+
+                if (hit.collider.CompareTag("Door")) 
+                {
+                    SceneChanger sceneChanger = hit.collider.gameObject.GetComponent<SceneChanger>();
+                    sceneChanger.ChangeScene();
                 }
             }
 
-            // Debug.DrawRay(ray.origin, ray.direction * maxDistance, Color.blue, 10f);
         }
     }
 
