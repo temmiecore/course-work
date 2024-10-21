@@ -6,36 +6,54 @@ using UnityEngine;
 public class WeaponController : MonoBehaviour
 {
     private Animator animator;
-    //private MeshCollider collider;
+    public float lightDamage = 5f;
+    public float strongDamage = 10f;
+    private float damage;
 
-    private bool isAttacking = false; 
-    public float attackCooldown = 0.3f;
-    public float damage = 5f;
+    public float lightAttackCooldown = 1f;
+    public float strongAttackCooldown = 2f;
+
+    private float lastLightAttackTime = 0f;
+    private float lastStrongAttackTime = 0f;
+
+    private int attackNumber;
 
     void Start()
     {
         animator = GetComponent<Animator>();
-        //collider = GetComponent<MeshCollider>();
     }
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && !isAttacking)
-        {
-            StartCoroutine(Attack());
-        }
+        if (Input.GetMouseButtonDown(0) && Time.time >= lastLightAttackTime + lightAttackCooldown)
+            LightAttack();
+
+        else if (Input.GetMouseButtonDown(1) && Time.time >= lastStrongAttackTime + strongAttackCooldown)
+            StrongAttack();
     }
-    private IEnumerator Attack()
+
+    private void LightAttack()
     {
-        isAttacking = true;  
+        attackNumber = 0;
+        damage = lightDamage;
+        lastLightAttackTime = Time.time;
         animator.SetTrigger("Attack");
-        yield return new WaitForSeconds(attackCooldown);
-        isAttacking = false;
+        animator.SetInteger("AttackNumber", attackNumber);
+    }
+
+    private void StrongAttack()
+    {
+        attackNumber = 1;
+        damage = strongDamage;
+        lastStrongAttackTime = Time.time;
+        animator.SetTrigger("Attack");
+        animator.SetInteger("AttackNumber", attackNumber);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Enemy") {
+        if (other.gameObject.tag == "Enemy")
+        {
             EnemyController hitEnemy = other.gameObject.GetComponent<EnemyController>();
             hitEnemy.TakeDamage(damage);
         }
