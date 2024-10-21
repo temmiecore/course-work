@@ -410,6 +410,21 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2522264052574574742, guid: f0cb0f7521c635f4cbf52beba817257e,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2522264052574574742, guid: f0cb0f7521c635f4cbf52beba817257e,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2522264052574574742, guid: f0cb0f7521c635f4cbf52beba817257e,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2522264052574574742, guid: f0cb0f7521c635f4cbf52beba817257e,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.29
       objectReference: {fileID: 0}
@@ -462,6 +477,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Shortsword
+      objectReference: {fileID: 0}
+    - target: {fileID: 8358037206840159711, guid: f0cb0f7521c635f4cbf52beba817257e,
+        type: 3}
+      propertyPath: attackCooldown
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
