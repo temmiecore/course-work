@@ -6,6 +6,7 @@ public class RainController : MonoBehaviour
 {
     public ParticleSystem particleSystem;
     public Light light;
+    private PlayerController player;
 
     private float lightningRoll;
     public float lightningChance = 0.01f;
@@ -17,8 +18,8 @@ public class RainController : MonoBehaviour
     private void Start()
     {
         particleSystem = GetComponent<ParticleSystem>();
-        light = GetComponent<Light>();
-        
+        light = GetComponentInChildren<Light>();
+        player = GameManager.instance.playerController;
     }
 
     private void Update()
@@ -32,6 +33,6 @@ public class RainController : MonoBehaviour
 
         light.intensity = lightIntensity;
 
-
+        transform.position = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
     }
 }
