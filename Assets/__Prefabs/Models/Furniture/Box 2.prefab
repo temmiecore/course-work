@@ -63,6 +63,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Box 2
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 690a254b1f3fab74394aa69c3711364b,
+        type: 3}
+      propertyPath: m_TagString
+      value: Terrain
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

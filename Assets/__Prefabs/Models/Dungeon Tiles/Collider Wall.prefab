@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1640555679184838328}
   m_Layer: 0
   m_Name: Collider Wall
-  m_TagString: Untagged
+  m_TagString: Terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

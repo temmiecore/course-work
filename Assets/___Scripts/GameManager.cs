@@ -31,7 +31,9 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         health = playerController.health;
+        money = 0;
         uiController.setUIHealth(health);
+        uiController.setUIMoney(money);
     }
 
     [Header("References")]

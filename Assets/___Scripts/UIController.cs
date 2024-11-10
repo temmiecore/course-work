@@ -12,12 +12,12 @@ public class UIController : MonoBehaviour
 
     public void setUIHealth(float amount) 
     {
-        healthText.text = "Health: " + amount;
+        healthText.text = amount.ToString();
     }
 
     public void setUIMoney(int amount) 
     {
-        moneyText.text = "Money: " + amount;
+        moneyText.text = amount.ToString();
     }
 
     public void setUIInteractionPopup(string text) 

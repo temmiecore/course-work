@@ -52,7 +52,7 @@ public class EnemyController : MonoBehaviour
         animator = GetComponent<Animator>();
 
         material = FindMaterial();
-        material.SetFloat("_Dissolve_Amount", 0);
+        material.SetFloat("_Cutoff_Height", 1);
 
         SetRandomIdleTarget();
     }
@@ -171,8 +171,8 @@ public class EnemyController : MonoBehaviour
         while (elapsedTime < dissolveTime) 
         {
             elapsedTime += Time.deltaTime;
-            dissolveStrength = Mathf.Lerp(0, 1, elapsedTime / dissolveTime);
-            material.SetFloat("_Dissolve_Amount", dissolveStrength);
+            dissolveStrength = Mathf.Lerp(1, 0, elapsedTime / dissolveTime);
+            material.SetFloat("_Cutoff_Height", dissolveStrength);
             yield return null;
         }
 
