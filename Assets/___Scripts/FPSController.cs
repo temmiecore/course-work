@@ -68,34 +68,32 @@ public class FPSController : MonoBehaviour
         Vector3 right = transform.TransformDirection(Vector3.right);
 
         isRunning = Input.GetKey(KeyCode.LeftShift);
-        float curSpeedX = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Vertical") : 0;
-        float curSpeedY = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Horizontal") : 0;
+        float speed = canMove ? (isRunning ? runSpeed : walkSpeed) : 0;
+        float curSpeedX = speed * Input.GetAxis("Vertical");
+        float curSpeedY = speed * Input.GetAxis("Horizontal");
         float movementDirectionY = moveDirection.y;
+
         moveDirection = (forward * curSpeedX) + (right * curSpeedY);
+        moveDirection.Normalize();
+        
+        moveDirection *= speed;
         #endregion
 
         #region Jumping handler
         if (canJump && Input.GetButton("Jump") && canMove && characterController.isGrounded)
-        {
             moveDirection.y = jumpPower;
-        }
         else
-        {
             moveDirection.y = movementDirectionY;
-        }
+        
 
         if (!characterController.isGrounded)
-        {
             moveDirection.y -= gravityStrength * Time.fixedDeltaTime;
-        }
         #endregion
 
-        if (curSpeedX != 0 || curSpeedY != 0)
-            isMoving = true;
-        else
-            isMoving = false;
+        isMoving = curSpeedX != 0 || curSpeedY != 0;
 
         characterController.Move(moveDirection * Time.fixedDeltaTime);
+
     }
 
     void HandleCameraRotation()
