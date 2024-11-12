@@ -33,6 +33,7 @@ public class RainController : MonoBehaviour
 
         light.intensity = lightIntensity;
 
-        transform.position = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
+        if (player != null)
+            transform.position = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
     }
 }

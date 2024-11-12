@@ -4847,7 +4847,7 @@ MonoBehaviour:
   particleSystem: {fileID: 0}
   light: {fileID: 0}
   lightningChance: 0.0008
-  lightFadeout: 0.04
+  lightFadeout: 0.06
   maxParticles: 1000
 --- !u!1 &9078422553909187531
 GameObject:

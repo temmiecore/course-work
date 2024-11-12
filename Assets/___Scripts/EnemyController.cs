@@ -149,6 +149,12 @@ public class EnemyController : MonoBehaviour
     /// Eventually use hitboxes and convert this into OnTriggerEnter
     private void Attack()
     {
+        StartCoroutine(AttackCoroutine());
+    }
+
+    IEnumerator AttackCoroutine() 
+    {
+        yield return new WaitForSeconds(0.5f);
         playerScript.TakeDamage(damage);
     }
 

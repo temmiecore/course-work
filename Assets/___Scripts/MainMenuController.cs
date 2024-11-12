@@ -5,8 +5,17 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuController : MonoBehaviour
 {
+    public Animator blackScreen;
+
     public void onStartGameButtonClick() 
     {
+        StartCoroutine(startGame());
+    }
+
+    IEnumerator startGame() 
+    {
+        blackScreen.SetTrigger("Play");
+        yield return new WaitForSeconds(2);
         SceneManager.LoadScene("Forest");
     }
 
