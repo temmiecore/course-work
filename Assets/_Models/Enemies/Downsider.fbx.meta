@@ -8,7 +8,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: downsider_material
-    second: {fileID: 2100000, guid: 09c84ede66406c94f971c30f008899ea, type: 2}
+    second: {fileID: 2100000, guid: 4159ec4794ab9514baf4b65f28f38f22, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

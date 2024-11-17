@@ -134,8 +134,10 @@ public class FPSController : MonoBehaviour
                 if (hit.collider.CompareTag("Item"))
                 {
                     Item item = hit.collider.gameObject.GetComponent<Item>();
-                    if (item != null)
+                    if (item != null) {
                         item.PickUp();
+                        GameManager.instance.audioManager.Play("player_pickup");
+                    }
                 }
 
                 if (hit.collider.CompareTag("Door")) 

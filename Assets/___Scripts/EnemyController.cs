@@ -7,6 +7,9 @@ using Pathfinding;
 [RequireComponent(typeof(CapsuleCollider), typeof(Rigidbody))]
 public class EnemyController : MonoBehaviour
 {
+    [Header("Killbox reference")]
+    public KillboxController killbox;
+
     [Header("Enemy stats")]
     public float health = 100f;
     public float damage = 1f;
@@ -14,9 +17,9 @@ public class EnemyController : MonoBehaviour
     public LootTable lootTable;
 
     private float attackTimeStamp = 0f;
+    private bool isAttacking = false; // New flag to track if an attack is in progress
 
     private GameObject player;
-    private PlayerController playerScript;
 
     [Header("AI Radiuses")]
     [Tooltip("Radius for random movement when idle.")]
@@ -38,13 +41,12 @@ public class EnemyController : MonoBehaviour
     private Animator animator;
 
     private Material material;
-    private float dissolveStrength = 0;
+    private float dissolveAmount = 0;
     private float dissolveTime = 1f;
 
     void Start()
     {
-        player = FindObjectOfType<FPSController>()?.gameObject;
-        playerScript = player.GetComponent<PlayerController>();
+        player = GameManager.instance.player;
 
         seeker = GetComponent<Seeker>();
         destinationSetter = GetComponent<AIDestinationSetter>();
@@ -52,7 +54,7 @@ public class EnemyController : MonoBehaviour
         animator = GetComponent<Animator>();
 
         material = FindMaterial();
-        material.SetFloat("_Cutoff_Height", 1);
+        material.SetFloat("_Dissolve_Amount", 0);
 
         SetRandomIdleTarget();
     }
@@ -67,7 +69,7 @@ public class EnemyController : MonoBehaviour
 
         if (isDead)
             return;
-        
+
         distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
 
         if (!isChasing && distanceToPlayer <= detectionRadius)
@@ -95,20 +97,22 @@ public class EnemyController : MonoBehaviour
             }
         }
 
-        if (isChasing && distanceToPlayer <= attackDistance && attackTimeStamp <= Time.time)
+        // Initiate an attack if in range and cooldown has passed, but not if already attacking
+        if (isChasing && distanceToPlayer <= attackDistance && attackTimeStamp <= Time.time && !isAttacking)
         {
-            Attack();
             animator.SetTrigger("Attack");
+            StartCoroutine(Attack());
             attackTimeStamp = Time.time + attackCooldown;
         }
 
         if (aiPath.velocity.magnitude > 0.1f)
             animator.SetBool("IsWalking", true);
         else
-            animator.SetBool("IsWalking", true);
+            animator.SetBool("IsWalking", false);
     }
 
-    private Material FindMaterial() {
+    private Material FindMaterial()
+    {
         Renderer renderer = GetComponent<Renderer>();
         Material foundMaterial = null;
 
@@ -145,40 +149,40 @@ public class EnemyController : MonoBehaviour
         idleTarget = randomDirection;
         seeker.StartPath(transform.position, idleTarget);
     }
-
-    /// Eventually use hitboxes and convert this into OnTriggerEnter
-    private void Attack()
+    
+    IEnumerator Attack()
     {
-        StartCoroutine(AttackCoroutine());
-    }
-
-    IEnumerator AttackCoroutine() 
-    {
-        yield return new WaitForSeconds(0.5f);
-        playerScript.TakeDamage(damage);
+        isAttacking = true;
+        killbox.ResetDamageFlag(); 
+        killbox.collider.enabled = true;
+        yield return new WaitForSeconds(1f); // Attack animation duration
+        killbox.collider.enabled = false;
+        isAttacking = false;
     }
 
     public void TakeDamage(float damage)
     {
         health -= damage;
+        GameManager.instance.audioManager.Play("enemy_hit");
         if (health <= 0)
         {
+            GameManager.instance.audioManager.Play("enemy_die");
             StartCoroutine(Die());
         }
     }
 
     private IEnumerator Die()
     {
-        //isDead = true;
+        isDead = true;
         destinationSetter.target = null;
-        animator.speed = 0f; // Should stop the animation
+        animator.speed = 0f;
 
         float elapsedTime = 0;
-        while (elapsedTime < dissolveTime) 
+        while (elapsedTime < dissolveTime)
         {
             elapsedTime += Time.deltaTime;
-            dissolveStrength = Mathf.Lerp(1, 0, elapsedTime / dissolveTime);
-            material.SetFloat("_Cutoff_Height", dissolveStrength);
+            dissolveAmount = Mathf.Lerp(0, 1, elapsedTime / dissolveTime);
+            material.SetFloat("_Dissolve_Amount", dissolveAmount);
             yield return null;
         }
 
@@ -186,17 +190,18 @@ public class EnemyController : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void DropItems() {
+    private void DropItems()
+    {
         if (lootTable == null)
             return;
 
         List<GameObject> droppedItems = lootTable.GetDrop();
         foreach (GameObject item in droppedItems)
         {
+            // Make items "fly" out of the enemy
             Instantiate(item, transform.position, transform.rotation);
         }
     }
-
 
     // To draw radiuses
     private void OnDrawGizmosSelected()

@@ -124,6 +124,118 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &37473121
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 37473124}
+  - component: {fileID: 37473123}
+  - component: {fileID: 37473122}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &37473122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 37473121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef334ec1bd6420046819a2c537953574, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &37473123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 37473121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17b40cbad4baa634199248c47705d77e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: player_hit
+    clip: {fileID: 8300000, guid: f857a8f68bc4b9042a4dbd07cc9f8efd, type: 3}
+    volume: 0.5
+    pitch: 0.5
+    loop: 0
+    source: {fileID: 0}
+  - name: player_pickup
+    clip: {fileID: 8300000, guid: c8159d89bbe3df54f950d9870bb0b028, type: 3}
+    volume: 0.15
+    pitch: 0.5
+    loop: 0
+    source: {fileID: 0}
+  - name: player_attack
+    clip: {fileID: 8300000, guid: e3d1483b68b2c604f9c9dd66b617a44a, type: 3}
+    volume: 0.1
+    pitch: 0.5
+    loop: 0
+    source: {fileID: 0}
+  - name: enemy_hit
+    clip: {fileID: 8300000, guid: 284ad563875f41c44a4141749bde217b, type: 3}
+    volume: 0.3
+    pitch: 0.5
+    loop: 0
+    source: {fileID: 0}
+  - name: enemy_die
+    clip: {fileID: 8300000, guid: 381add2be656c894fb846d84cdd0e42f, type: 3}
+    volume: 0.1
+    pitch: 0.5
+    loop: 0
+    source: {fileID: 0}
+  - name: music_forest
+    clip: {fileID: 8300000, guid: 6bafb18877be23a43b3f496eba2aa471, type: 3}
+    volume: 0.02
+    pitch: 0.5
+    loop: 1
+    source: {fileID: 0}
+  - name: rain
+    clip: {fileID: 8300000, guid: 1dd50414defb5124eaac9cde06ebf18d, type: 3}
+    volume: 0.04
+    pitch: 0.5
+    loop: 1
+    source: {fileID: 0}
+  - name: music_dungeon
+    clip: {fileID: 8300000, guid: 8caf436d87a44894985b0bc9aa2ca755, type: 3}
+    volume: 0.05
+    pitch: 0.5
+    loop: 1
+    source: {fileID: 0}
+  - name: thunder
+    clip: {fileID: 8300000, guid: fcbc29f3039495f448071709e9647406, type: 3}
+    volume: 0.1
+    pitch: 0.5
+    loop: 0
+    source: {fileID: 0}
+--- !u!4 &37473124
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 37473121}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &97374855
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3762,6 +3874,8 @@ MonoBehaviour:
   playerController: {fileID: 1526118726}
   characterController: {fileID: 1526118729}
   uiController: {fileID: 1839920902}
+  audioManager: {fileID: 37473123}
+  currentScene: 
   money: 0
   health: 0
 --- !u!4 &1804992702
@@ -3841,10 +3955,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 720, y: 720}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -4482,6 +4596,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3847502425833829766, guid: 69dc4f7eacb28ee408862c3ed48c0dc7,
         type: 3}
+      propertyPath: lookSpeed
+      value: 1.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3847502425833829766, guid: 69dc4f7eacb28ee408862c3ed48c0dc7,
+        type: 3}
       propertyPath: uiController
       value: 
       objectReference: {fileID: 1839920902}
@@ -4542,6 +4661,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Rain
+      objectReference: {fileID: 0}
+    - target: {fileID: 2248278494808306826, guid: 20634e9a33528c3418341d2a8b075593,
+        type: 3}
+      propertyPath: lightningChance
+      value: 0.0006
       objectReference: {fileID: 0}
     - target: {fileID: 3827087548443720109, guid: 20634e9a33528c3418341d2a8b075593,
         type: 3}
@@ -4739,6 +4863,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1804992702}
+  - {fileID: 37473124}
   - {fileID: 1839920901}
   - {fileID: 832575519}
   - {fileID: 1610745446919492948}

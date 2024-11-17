@@ -25,8 +25,10 @@ public class RainController : MonoBehaviour
     private void Update()
     {
         lightningRoll = Random.Range(0f, 1f);
-        if (lightningRoll < lightningChance)
-            lightIntensity = 10f;
+        if (lightningRoll < lightningChance) 
+        {
+            StartCoroutine(Thunder());
+        }
 
         if (lightIntensity > 0)
             lightIntensity -= lightFadeout;
@@ -35,5 +37,12 @@ public class RainController : MonoBehaviour
 
         if (player != null)
             transform.position = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
+    }
+
+    IEnumerator Thunder() 
+    {
+        lightIntensity = 10f;
+        yield return new WaitForSeconds(1f);
+        GameManager.instance.audioManager.Play("thunder");
     }
 }

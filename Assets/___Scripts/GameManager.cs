@@ -14,8 +14,8 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
             Destroy(uiController.gameObject);
             Destroy(player.gameObject);
+            Destroy(audioManager.gameObject);
             // Destroy any other scene-persisting objects
-            // Audio
             // ...
             return;
         }
@@ -41,10 +41,11 @@ public class GameManager : MonoBehaviour
     public PlayerController playerController;
     public CharacterController characterController;
     public UIController uiController;
-    // Audio
+    public AudioManager audioManager;
     // ...
 
     [Header("Saving data")]
+    public string currentScene;
     public int money;
     public float health;
 
@@ -55,12 +56,18 @@ public class GameManager : MonoBehaviour
 
         if (health <= 0)
         {
-            // Game over
+            ChangeScene(currentScene);
+
+            health = 100;
+            uiController.setUIHealth(health);
+            money = 0;
+            uiController.setUIMoney(money);
         }
     }
 
     public void ChangeScene(string sceneName) 
     {
+        currentScene = sceneName;
         SceneManager.LoadScene(sceneName);
     }
 
@@ -69,5 +76,17 @@ public class GameManager : MonoBehaviour
         characterController.enabled = false;
         characterController.transform.position = GameObject.Find("Spawn").transform.position;
         characterController.enabled = true;
+
+        if (s.name == "Forest") 
+        {
+            audioManager.Play("rain");
+            audioManager.Play("music_forest");
+        }
+        else
+        {
+            audioManager.Stop("rain");
+            audioManager.Stop("music_forest");
+            audioManager.Play("music_dungeon");
+        }
     }
 }

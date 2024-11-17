@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        GameManager.instance.audioManager.Play("player_hit");
         health -= damage; 
         GameManager.instance.editHealth(-damage); // This is weird
     }

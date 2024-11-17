@@ -37,6 +37,7 @@ public class WeaponController : MonoBehaviour
         attackNumber = 0;
         damage = lightDamage;
         lastLightAttackTime = Time.time;
+        GameManager.instance.audioManager.Play("player_attack");
         animator.SetTrigger("Attack");
         animator.SetInteger("AttackNumber", attackNumber);
     }
@@ -46,6 +47,7 @@ public class WeaponController : MonoBehaviour
         attackNumber = 1;
         damage = strongDamage;
         lastStrongAttackTime = Time.time;
+        GameManager.instance.audioManager.Play("player_attack");
         animator.SetTrigger("Attack");
         animator.SetInteger("AttackNumber", attackNumber);
     }
